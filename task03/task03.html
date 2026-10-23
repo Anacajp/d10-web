@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      Countries
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="container py-4">
+    <button id="load" class="btn btn-primary">
+      Load countries
+    </button>
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th>
+            Country-code
+          </th>
+          <th>
+            Name
+          </th>
+        </tr>
+      </thead>
+      <tbody id="countries">
+      </tbody>
+    </table>
+    <p id="error" class="text-danger" role="alert"></p>
+    <script>
+      document.querySelector("#load").addEventListener("click", async () => {
+        const body = document.querySelector("#countries");
+        const error = document.querySelector("#error");
+        body.replaceChildren();
+        error.textContent = "";
+        try {
+          const response = await fetch("../day10_material/countries.json");
+          if (!response.ok) throw new Error("Could not load countries.");
+          const countries = await response.json();
+          if (!countries || typeof countries !== "object" || Array.isArray(countries)) {
+            throw new Error("The countries file must map country codes to names.");
+          }
+          Object.entries(countries).forEach(([countryCode, countryName]) => {
+            const row = document.createElement("tr");
+            const code = document.createElement("td");
+            const name = document.createElement("td");
+            code.textContent = countryCode;
+            name.textContent = countryName;
+            row.append(code, name);
+            body.append(row);
+          });
+        } catch (error) {
+          document.querySelector("#error").textContent = error.message;
+        }
+      }
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+# Dependencias locais do npm (nao sao necessarias para executar PHP neste projeto)
+/node_modules/
+/package.json
+/package-lock.json
+
+# Notas locais de estudo; nao fazem parte da entrega
+/notas-task*.md
+
+# Metadados de download do Windows que podem aparecer no WSL
+*:Zone.Identifier
